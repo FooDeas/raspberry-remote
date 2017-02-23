@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
 					/**
 					* handle messages
 					*/
-					int nAddr = getAddr(nGroup, nSwitchNumber);
+					int nAddr = getAddrElro(nGroup, nSwitchNumber);
 					printf("nAddr: %i\n", nAddr);
 					printf("nPlugs: %i\n", nPlugs);
 					char msg[13];
@@ -193,11 +193,11 @@ int main(int argc, char* argv[]) {
 					printf("nGroup: %s\n", nGroup);
 					printf("nSwitchNumber: %i\n", nSwitchNumber);
 					printf("nAction: %i\n", nAction);
-					int nAddr = getAddr(nGroup, nSwitchNumber);
+					int nAddr = getAddrInt(nGroup, nSwitchNumber);
 					printf("nAddr: %i\n", nAddr);
 					printf("nPlugs: %i\n", nPlugs);
 					char msg[13];
-					if (nAddr > 16 || nAddr < 1) {
+					if (nAddr > 256 || nAddr < 1) {
 						printf("Switch out of range: %s:%d\n", nGroup, nSwitchNumber);
 						n = write(newsockfd,"2",1);
 					}
@@ -318,9 +318,9 @@ void error(const char *msg) {
 }
 
 /**
- * calculate the array address of the power state
+ * calculate the array address of the power state for elro
  */
-int getAddr(const char* nGroup, int nSwitchNumber) {
+int getAddrElro(const char* nGroup, int nSwitchNumber) {
 	int tempgroup = atoi(nGroup);
 	int group = 0;
 	for (int i = 0; i < 5; i++) {
@@ -333,6 +333,13 @@ int getAddr(const char* nGroup, int nSwitchNumber) {
 	int switchnr = nSwitchNumber & 0b00011111;
 	int result = (group << 5) | switchnr;
 	return result;
+}
+
+/**
+ * calculate the array address of the power state for intertechno
+ */
+int getAddrInt(const char* nGroup, int nSwitchNumber) {
+	return ((nGroup - 1) * 5) + (nSwitchNumber - 1);
 }
 
 PI_THREAD(switchOn) {
