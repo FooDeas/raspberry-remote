@@ -339,7 +339,7 @@ int getAddrElro(const char* nGroup, int nSwitchNumber) {
  * calculate the array address of the power state for intertechno
  */
 int getAddrInt(const char* nGroup, int nSwitchNumber) {
-	return ((nGroup - 1) * 16) + (nSwitchNumber - 1) + 256;
+	return ((atoi(nGroup) - 1) * 16) + (nSwitchNumber - 1) + 256;
 }
 
 PI_THREAD(switchOn) {
