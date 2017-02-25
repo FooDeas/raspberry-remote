@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 	mySwitch.setPulseLength(300);
 	usleep(50000);
 	mySwitch.enableTransmit(0);
-	nPlugs=512;
+	nPlugs=1280;
 	int nState[nPlugs];
 	nTimeout=0;
 	memset(nState, 0, sizeof(nState));
@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
 					printf("nAddr: %i\n", nAddr);
 					printf("nPlugs: %i\n", nPlugs);
 					char msg[13];
-					if (nAddr > 255 || nAddr < 0) {
+					if (nAddr > 1023 || nAddr < 0) {
 						printf("Switch out of range: %s:%d\n", nGroup, nSwitchNumber);
 						n = write(newsockfd,"2",1);
 					}
@@ -197,7 +197,7 @@ int main(int argc, char* argv[]) {
 					printf("nAddr: %i\n", nAddr);
 					printf("nPlugs: %i\n", nPlugs);
 					char msg[13];
-					if (nAddr > 511 || nAddr < 256) {
+					if (nAddr > 1279 || nAddr < 1024) {
 						printf("Switch out of range: %s:%d\n", nGroup, nSwitchNumber);
 						n = write(newsockfd,"2",1);
 					}
@@ -339,7 +339,7 @@ int getAddrElro(const char* nGroup, int nSwitchNumber) {
  * calculate the array address of the power state for intertechno
  */
 int getAddrInt(const char* nGroup, int nSwitchNumber) {
-	return ((atoi(nGroup) - 1) * 16) + (nSwitchNumber - 1) + 256;
+	return ((atoi(nGroup) - 1) * 16) + (nSwitchNumber - 1) + 1024;
 }
 
 PI_THREAD(switchOn) {
